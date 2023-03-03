@@ -43,6 +43,15 @@ module.exports = function (io) {
         else
           io.emit('messageNb', count);
       })
+
+      sMessage.aggregate([
+        { $group: { _id: '$userid', count: { $sum: 1 } } }
+      ], (err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          io.emit('users', results);      }
+      });
   
       // Sauvegarde dans la base de données
       message.save().then(() => {

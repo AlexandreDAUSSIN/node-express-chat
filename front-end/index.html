@@ -20,18 +20,15 @@
     HTML/CSS implementation of HipChat redesign
     Source: https://codepen.io/CucuIonel/pen/HzLtC
     -->
-	<div class="window-wrapper">
+	<div class="big-window-wrapper" id="globalwindow">
 		<div class="window-title">
 			<div class="dots">
 				<i class="fa fa-circle"></i>
 				<i class="fa fa-circle"></i>
-				<i class="fa fa-circle"></i>
+				<i class="fa fa-circle" id="resize"></i>
 			</div>
 			<div class="title">
 				<span>RIL - CHAT</span>
-			</div>
-			<div class="expand">
-				<i class="fa fa-expand"></i>
 			</div>
 		</div>
 		<div class="window-area">
@@ -47,13 +44,8 @@
 					</li>
 				</ul>
 				<div class="my-account">
-					<div class="image">
-						<img src="https://thispersondoesnotexist.com/image">
-						<i class="fa fa-circle online"></i>
-					</div>
 					<div class="name">
-						<span>John Doe</span>
-						<i class="fa fa-angle-down"></i>
+						<input type="text" value="" placeholder="Username" id="username">
 						<span class="availability">Available</span>
 					</div>
 
@@ -84,7 +76,6 @@
 				<ul class="tabs-container">
 					<li class="active">
 						<ul class="member-list" id="userList">
-							<li><span class="status online"><i class="fa fa-circle-o"></i></span><span>John Doe</span></li>
 						</ul>
 					</li>
 					<li></li>

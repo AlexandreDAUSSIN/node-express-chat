@@ -135,7 +135,7 @@ body {
 b {
   font-weight: bold;
 }
-.window-wrapper {
+.small-window-wrapper {
   background: #fff;
   width: 780px;
   margin: 30px auto;
@@ -143,6 +143,16 @@ b {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   min-height: 530px;
+  position: relative;
+}
+.big-window-wrapper {
+  background: #fff;
+  width: 1500px;
+  margin: 30px auto;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  min-height: 800px;
   position: relative;
 }
 .window-title {

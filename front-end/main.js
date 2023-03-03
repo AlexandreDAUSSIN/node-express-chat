@@ -47,21 +47,30 @@
 
 let userid;
 const socket = io('http://localhost:3000');
-        
-if(localStorage.getItem('userid')){
-    userid = localStorage.getItem('userid');
-} else {
-    const id = 666;
-    localStorage.setItem('userid', id)
-    userid = id;
-}
+
+const ID = function () {
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
 
 let messageArea = document.getElementById('messageArea');
 let sendButton = document.getElementById('sendButton');
 
-sendButton.addEventListener('click', sendButtonClick)
+sendButton.addEventListener('click', sendButtonClick);
 
 function sendButtonClick(){
+    if(document.getElementById('username').value != '') {
+        const id = document.getElementById('username');
+        localStorage.setItem('userid', id.value);
+        userid = id.value;
+    }
+    else if(localStorage.getItem('userid') != ''){
+        userid = localStorage.getItem('userid');
+    } 
+    else {
+        const id = ID();
+        localStorage.setItem('userid', id)
+        userid = id;
+    }
     let message = messageArea.value;
     socket.emit('sendMessage', ({userid, message}));
 }
@@ -107,11 +116,9 @@ socket.on('messageNb', (value) => {
 socket.on('users', (users) => {
 
     userList.innerHTML = '';
-    
+
     users.map((user => {
         var list = document.createElement('li');
-        // if(messages.userid == localStorage.getItem('userid'))
-        // {
             var statut = document.createElement('span');
             statut.className = "status online";
             list.appendChild(statut);
@@ -125,9 +132,17 @@ socket.on('users', (users) => {
             
             username.innerHTML = `${user._id} : Nombre messages : ${user.count}`;
             userList.insertBefore(list, userList.childNodes[0]);
-        // }
-        // else
-        // {
-        // }
     }))
 });
+
+let resizeButton = document.getElementById('resize');
+let globalwindow = document.getElementById('globalwindow');
+
+resizeButton.addEventListener('click', resizeButtonClick);
+
+function resizeButtonClick(){
+    if(globalwindow.className == 'small-window-wrapper')
+        globalwindow.className = 'big-window-wrapper';
+    else if(globalwindow.className == 'big-window-wrapper')
+        globalwindow.className = 'small-window-wrapper';    
+}
