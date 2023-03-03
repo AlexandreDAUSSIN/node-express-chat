@@ -24,7 +24,7 @@ module.exports = function (app, server) {
 
     const io = require('socket.io')(server, {
         cors: {
-          origin: "http://localhost:5500",
+          origin: "http://127.0.0.1:5500",
           methods: ["GET", "POST"]
         }
       })
@@ -33,7 +33,9 @@ module.exports = function (app, server) {
 
     app.use(function (req, res, next) { req.io = io; next(); });
 
-    app.get('/test', (req, res, next) => {
-        res.status(200).json({ hello: 'world' })
+    app.get('/history', (req, res, next) => {
+      sMessage.find().then((item) => {
+        res.status(200).json(item)
+      })
     })
 }
