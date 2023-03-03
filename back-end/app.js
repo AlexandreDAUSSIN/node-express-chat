@@ -1,8 +1,17 @@
 require('dotenv').config();
 const express = require('express');
+const bodyParser = require('body-parser');
+const sMessage = require('./models/message');
 
 // export one function that gets called once as the server is being initialized
 module.exports = function (app, server) {
+
+  const mongoose = require('mongoose');
+  mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_URL}/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    { useNewUrlParser: true,
+      useUnifiedTopology: true })
+    .then(() => console.log('DB is OK'))
+    .catch((e) => console.log(process.env.DB_USER));
 
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,10 +24,10 @@ module.exports = function (app, server) {
 
     const io = require('socket.io')(server, {
         cors: {
-            origin: "http://127.0.0.1:5000",
-            methods: ["GET", "POST"]
+          origin: "http://localhost:5500",
+          methods: ["GET", "POST"]
         }
-    })
+      })
 
     require('./socket/chat')(io);
 

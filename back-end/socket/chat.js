@@ -1,3 +1,5 @@
+const sMessage = require('../models/message');
+
 module.exports = function (io) {
 
   io.on('connection', (socket) => {
@@ -10,8 +12,22 @@ module.exports = function (io) {
       io.emit('notification', { type: 'removed_user', data: socket.id });
     });
 
-    socket.on('...', (msg) => {
-
-    });
+    socket.on('sendMessage', (value) => { 
+      // Création de l'objet "click" de Mongoose (schéma)
+      const message = new sMessage({
+          text: value.message,
+          sessionid: socket.id,
+          userid: value.userid,
+          timestamp: new Date()
+      });
+  
+      // Sauvegarde dans la base de données
+      message.save().then(() => {
+              io.emit('sendMessage', message)
+      }).catch((error) => {
+          console.log(error)
+      })
+      
+  });
   })
 }
